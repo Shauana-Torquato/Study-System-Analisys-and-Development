@@ -1,5 +1,5 @@
 import Header from "./components/header";
-import ListarTarefa from "./pages/tarefa/ListarTarefa";
+import ListarTarefa from "./pages/tarefa/ListarItem";
 
 function App() {
   return (

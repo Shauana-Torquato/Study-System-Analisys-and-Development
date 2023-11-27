@@ -15,39 +15,39 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Modal from '@mui/material/Modal';
 
-import CriarTarefa from './CriarTarefa';
-import EditarTarefa from './EditarTarefa';
+import AdicionarItem from './AdicionarItem';
+import EditarItem from './EditarItem';
 
 //A função abaixo é usada para criar o array contendo os dados iniciais da listagem de tarefas.
 function createData(
-  idTarefa: number,
-  tituloTarefa: string,
-  descricaoTarefa: string,
-  inicioTarefa: string,
-  fimTarefa: string,
-  statusTarefa: string,
-  recursoTarefa: string,
+  idItem,
+  tituloItem,
+  descricaoItem,
+  inicioItem,
+  fimItem,
+  recursoItem,
+  statusItem
 ) {
-  return { idTarefa, tituloTarefa, descricaoTarefa, inicioTarefa, fimTarefa, statusTarefa, recursoTarefa };
+  return { idItem, tituloItem, descricaoItem, inicioItem, fimItem, statusItem, recursoItem };
 }
 
 //Definição do array contendo os dados iniciais da listagem de tarefas
 const initialRows = [
-  createData(1, 'Tarefa 1', 'Descrição da Tarefa 1', '2022-01-01', '2022-01-02', 'Concluída', 'Recurso 1'),
-  createData(2, 'Tarefa 2', 'Descrição da Tarefa 2', '2022-01-03', '2022-01-04', 'Em Andamento', 'Recurso 2'),
-  createData(3, 'Tarefa 3', 'Descrição da Tarefa 3', '2022-01-04', '2022-01-05', 'Em Andamento', 'Recurso 3'),
-  createData(4, 'Tarefa 4', 'Descrição da Tarefa 4', '2022-01-05', '2022-01-06', 'Em Andamento', 'Recurso 4'),
-  createData(5, 'Tarefa 5', 'Descrição da Tarefa 5', '2022-01-06', '2022-01-07', 'Em Andamento', 'Recurso 5'),
-  createData(6, 'Tarefa 6', 'Descrição da Tarefa 6', '2022-01-07', '2022-01-08', 'Aguardando', 'Recurso 6'),
+  createData(1, 'Item 1', 'Descrição da Item 1', '2022-01-01', '2022-01-02', 'Concluída', 'Recurso 1'),
+  createData(2, 'Item 2', 'Descrição da Item 2', '2022-01-03', '2022-01-04', 'Em Andamento', 'Recurso 2'),
+  createData(3, 'Item 3', 'Descrição da Item 3', '2022-01-04', '2022-01-05', 'Em Andamento', 'Recurso 3'),
+  createData(4, 'Item 4', 'Descrição da Item 4', '2022-01-05', '2022-01-06', 'Em Andamento', 'Recurso 4'),
+  createData(5, 'Item 5', 'Descrição da Item 5', '2022-01-06', '2022-01-07', 'Em Andamento', 'Recurso 5'),
+  createData(6, 'Item 6', 'Descrição da Item 6', '2022-01-07', '2022-01-08', 'Aguardando', 'Recurso 6'),
 ];
 
 //Componente ListarTarefa
-const ListarTarefa = () => {
+const ListarItem = () => {
   const [open, setOpen] = useState(false);
   const [openEditar, setOpenEditar] = useState(false);
-  const [tarefas, setTarefas] = useState([]);
-  const [tarefa, setTarefa] = useState();
-  const [idTarefaSelecionada, setIdTarefaSelecionada] = useState([]);
+  const [itens, setItens] = useState([]);
+  const [item, setItem] = useState();
+  const [idItemSelecionado, setIdItemSelecionado] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleOpenEditar = () => setOpenEditar(true);
@@ -55,28 +55,28 @@ const ListarTarefa = () => {
 
   //O array definido acima é setado como conteúdo do state Tarefas na renderização inicial do componente.
   useEffect(() => {
-    setTarefas(initialRows);
+    setItens(initialRows);
   },[]);
 
   const handleEditar = (id) => {
-    setIdTarefaSelecionada(id);
+    setIdItemSelecionado(id);
 
     //Objeto local para armazenamento da tarefa filtrada de acordo com a seleção do usuário
-    let tarefaParaEditar = tarefas.filter(obj => {
-      return obj.idTarefa === id;
+    let itemParaEditar = itens.filter(obj => {
+      return obj.idItem === id;
     })[0];
 
     //Atribuição do Objeto local, setado acima, ao state Tarefa
-    setTarefa(tarefaParaEditar);
+    setItem(itemParaEditar);
 
     //Seta como true o state responsável pela exibição do Model de Editar Tarefa
     setOpenEditar(true)
   };
 
   const handleDeletar = (id) => {
-    setTarefas(current =>
-      current.filter(tarefa => {
-        return tarefa.idTarefa !== id;
+    setItens(current =>
+      current.filter(item => {
+        return item.idItem !== id;
       }),
     );
   };
@@ -85,8 +85,8 @@ const ListarTarefa = () => {
     <>
     <Card>
         <CardHeader
-          title="Tarefas"
-          subheader="Listagem de Tarefas"
+          title="Itens"
+          subheader="Listagem de Itens"
         /> 
         <CardContent>
             <TableContainer component={Paper}>
@@ -105,27 +105,27 @@ const ListarTarefa = () => {
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {tarefas.map((row, indice) => (
+                {itens.map((row, indice) => (
                     <TableRow
                     key={indice}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                          {row.idTarefa}
+                          {row.idItem}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                          {row.tituloTarefa}
+                          {row.tituloItem}
                       </TableCell>
-                      <TableCell align="right">{row.descricaoTarefa}</TableCell>
-                      <TableCell align="right">{row.inicioTarefa}</TableCell>
-                      <TableCell align="right">{row.fimTarefa}</TableCell>
-                      <TableCell align="right">{row.statusTarefa}</TableCell>
-                      <TableCell align="right">{row.recursoTarefa}</TableCell>
+                      <TableCell align="right">{row.descricaoItem}</TableCell>
+                      <TableCell align="right">{row.inicioItem}</TableCell>
+                      <TableCell align="right">{row.fimItem}</TableCell>
+                      <TableCell align="right">{row.statusItem}</TableCell>
+                      <TableCell align="right">{row.recursoItem}</TableCell>
                       <TableCell align="center">
-                        <Button variant="contained" color="success" onClick={() => handleEditar(row.idTarefa)}><EditIcon fontSize="small" /></Button>            
+                        <Button variant="contained" color="success" onClick={() => handleEditar(row.idItem)}><EditIcon fontSize="small" /></Button>            
                       </TableCell>
                       <TableCell align="center">
-                        <Button variant="contained" color="error" onClick={() => handleDeletar(row.idTarefa)}><DeleteIcon fontSize="small" /></Button>            
+                        <Button variant="contained" color="error" onClick={() => handleDeletar(row.idItem)}><DeleteIcon fontSize="small" /></Button>            
                       </TableCell>
                     </TableRow>
                 ))}
@@ -146,7 +146,7 @@ const ListarTarefa = () => {
         aria-describedby="modal-modal-description"
       >
         <div>
-          <CriarTarefa handleClose={handleClose} tarefas={tarefas} setTarefas={setTarefas} />
+          <AdicionarItem handleClose={handleClose} itens={itens} setItens={setItens} />
         </div>
       </Modal>  
     </div>
@@ -158,7 +158,7 @@ const ListarTarefa = () => {
         aria-describedby="modal-modal-description"
       >
         <div>
-          <EditarTarefa handleCloseEditar={handleCloseEditar} idTarefaSelecionada={idTarefaSelecionada} tarefas={tarefas} tarefa={tarefa} setTarefas={setTarefas} />
+          <EditarItem handleCloseEditar={handleCloseEditar} idItemSelecionado={idItemSelecionado} itens={itens} item={item} setItens={setItens} />
         </div>
       </Modal>  
     </div>
@@ -166,4 +166,4 @@ const ListarTarefa = () => {
  );
 };
  
-export default ListarTarefa;
+export default ListarItem;
